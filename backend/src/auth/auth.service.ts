@@ -40,9 +40,13 @@ export class AuthService {
 
   async login(user: any) {
     const payload = { username: user.username, sub: user.id };
+    const response = {
+      token: this.jwtService.sign(payload),
+      username: user.username,
+    };
     return {
       status: HttpStatus.OK,
-      JSON: this.jwtService.sign(payload),
+      JSON: response,
     };
   }
 
