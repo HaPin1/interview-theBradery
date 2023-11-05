@@ -1,52 +1,35 @@
-// cart.controller.ts
-
-import {
-  Controller,
-  Post,
-  Param,
-  Get,
-  NotFoundException,
-} from '@nestjs/common';
+import { Controller, Post, Body, Param, Get, Res } from '@nestjs/common';
 import { CartService } from './cart.service';
-import { Cart } from './cart.entity';
+import { Response } from 'express';
 
 @Controller('cart')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 
-  @Get(':clientId')
-  async getCart(@Param('clientId') clientId: number): Promise<Cart> {
-    const cart = await this.cartService.getCartByClientId(clientId);
-
-    if (!cart) {
-      throw new NotFoundException('Panier non trouvé pour ce client');
-    }
-
-    return cart;
-  }
-
-  @Post(':clientId/add/:productId')
+  @Post('add-to-cart')
   async addToCart(
-    @Param('clientId') clientId: number,
-    @Param('productId') productId: number,
+    @Body('userId') userId: number,
+    @Body('productId') productId: number,
+    @Body('quantity') quantity: number,
+    @Res() res: Response,
   ) {
-    return this.cartService.addToCart(clientId, productId);
+    const result = await this.cartService.addToCart(
+      userId,
+      productId,
+      quantity,
+    );
+    res.status(result.status).send(result.data);
   }
 
-  @Post('buy/:clientId')
-  async buyItems(@Param('clientId') clientId: number): Promise<string> {
-    const result = await this.cartService.buyItems(clientId);
+  @Get(':userId')
+  async getCart(@Param('userId') userId: number, @Res() res: Response) {
+    const result = await this.cartService.getCartByUserId(userId);
+    res.status(result.status).send(result.data);
+  }
 
-    if (result === 'NotEnoughStock') {
-      throw new Error(
-        'Achat impossible : Stock insuffisant pour certains produits',
-      );
-    }
-
-    if (result === 'CartEmpty') {
-      throw new NotFoundException('Le panier est vide');
-    }
-
-    return 'Achat effectué avec succès';
+  @Post('buy/:userId')
+  async buyCart(@Param('userId') userId: number, @Res() res: Response) {
+    const result = await this.cartService.buyCart(userId);
+    res.status(result.status).send(result.data);
   }
 }
