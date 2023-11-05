@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Cart } from './cart.entity';
 import { Products } from 'src/products/products.entity';
 import { HttpStatus } from '@nestjs/common';
+import { User } from 'src/auth/user.entity';
 
 @Injectable()
 export class CartService {
@@ -12,9 +13,17 @@ export class CartService {
     private cartRepository: Repository<Cart>,
     @InjectRepository(Products)
     private productsRepository: Repository<Products>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
   ) {}
 
   async addToCart(userId: number, productId: number, quantity: number) {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+
+    if (!user) {
+      return { status: HttpStatus.NOT_FOUND, data: 'User not found' };
+    }
+
     const product = await this.productsRepository.findOne({
       where: { id: productId },
     });
@@ -34,13 +43,13 @@ export class CartService {
     }
 
     let cartItem = await this.cartRepository.findOne({
-      where: { userId, product: { id: productId } },
+      where: { user: { id: userId }, product: { id: productId } },
     });
 
     if (!cartItem) {
       cartItem = new Cart();
-      cartItem.userId = userId;
-      cartItem.product = { id: productId } as any;
+      cartItem.user = user;
+      cartItem.product = product;
       cartItem.quantity = quantity;
     } else {
       cartItem.quantity += quantity;
@@ -55,7 +64,7 @@ export class CartService {
 
   async getCartByUserId(userId: number) {
     const userCart = await this.cartRepository.find({
-      where: { userId },
+      where: { user: { id: userId } },
       relations: ['product'],
     });
 
@@ -71,7 +80,7 @@ export class CartService {
 
   async buyCart(userId: number) {
     const userCart = await this.cartRepository.find({
-      where: { userId },
+      where: { user: { id: userId } },
       relations: ['product'],
     });
 
@@ -113,7 +122,7 @@ export class CartService {
       }),
     );
 
-    await this.cartRepository.delete({ userId });
+    await this.cartRepository.delete({ user: { id: userId } });
 
     return {
       status: HttpStatus.OK,
