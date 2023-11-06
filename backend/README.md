@@ -1,73 +1,130 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# NestJS API Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## 1. Getting started
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### 1.1 Requirements
 
-## Description
+Before starting, make sure you have at least those components on your workstation:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- An up-to-date release of [NodeJS](https://nodejs.org/), NPM and Yarn
+- A database such as MariaDB, MySQL or PostgreSQL.
 
-## Installation
+### 1.2 Project configuration
 
-```bash
-$ yarn install
+Start by cloning this project on your workstation.
+
+```sh
+git clone https://github.com/HaPin1/interview-theBradery.git
 ```
 
-## Running the app
+The next thing will be to install all the dependencies of the project.
 
-```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+```sh
+cd ./backend
+yarn install
 ```
 
-## Test
+Once the dependencies are installed, you can now configure your project by creating a new `.env` file containing your environment variables used for development.
 
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+```
+cp .env.example .env
+vi .env
 ```
 
-## Support
+### 1.3 Launch and discover
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+You are now ready to launch the NestJS application using the command below.
 
-## Stay in touch
+```sh
+# Launch the development server with TSNode
+npm run dev
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## 2. Project structure
 
-## License
+This template was made with a well-defined directory structure.
 
-Nest is [MIT licensed](LICENSE).
+```sh
+src/
+project/
+│
+├── auth/
+│ ├── auth.controller.ts # Controller for authentication endpoints
+│ ├── auth.module.ts # Module for authentication, managing imports and authentication-related dependencies
+│ ├── auth.service.ts # Service handling authentication business logic
+│ ├── jwt-auth.guard.ts # Guard for protecting routes requiring JWT authentication
+│ ├── jwt.strategy.ts # JWT strategy used by Passport for token validation
+│ └── user.entity.ts # Representation of the "User" entity
+│
+├── cart/
+│ ├── cart.controller.ts # Controller for cart operations
+│ ├── cart.entity.ts # Entity representing the structure of basket data in database
+│ ├── cart.module.ts # Module for basket-related operations
+│ └── cart.service.ts # Service managing basket business logic
+│
+├── order/
+│ ├── order.controller.ts # Endpoint controller for orders
+│ ├── order.entity.ts # Entity representing order data structure in database
+│ ├── order.module.ts # Module for order-related operations
+│ └── order.service.ts # Service managing order business logic
+│├── order/
+│ ├── order.controller.ts # Endpoint controller for orders
+│ ├── order.entity.ts # Entity representing order data structure in database
+│ ├── order.module.ts # Module for order-related operations
+│ └── order.service.ts # Service managing order business logic
+│
+├── product/
+│ ├── products.controller.ts # Controller for product operations
+│ ├── products.entity.ts # Entity representing product data structure in database
+│ ├── products.module.ts # Module for product operations
+│ └── products.service.ts # Service managing business logic for product-related operations
+│
+├── app.module.ts # Main application module, integrating all other modules
+├── main.ts # Main entry point for starting the application
+├── .env # Configuration file for environment variables
+├── package.json # Node.js configuration file, listing dependencies and scripts to run the application
+└── tsconfig.json # TypeScript configuration file
+```
+
+## 3. Default Yarn commands
+
+The NPM commands below are already included with this template and can be used to quickly run, build and test your project.
+
+```sh
+# Start the application using the transpiled NodeJS
+yarn start
+
+# Run the application using "ts-node"
+yarn start:dev
+
+# Transpile the TypeScript files
+yarn build
+
+# Lint the project files using TSLint
+yarn lint
+
+```
+
+## 4. Endpoints
+
+### Authentication
+
+/auth/login: Endpoint for logging in and obtaining a JWT token.
+/auth/register : Endpoint to register a new user.
+
+### Cart
+
+/cart/add-to-cart : Endpoint to add a product to the cart.
+/cart/remove-from-cart : Endpoint to remove a product from the cart.
+/cart: Endpoint to retrieve the contents of a user's cart.
+/cart/buy : Endpoint to buy products from the cart.
+
+### Orders
+
+/orders: Endpoint to retrieve the list of orders.
+Products
+
+### Products
+
+/products : Endpoint to retrieve all products.
+/products/:id : Endpoint to retrieve a specific product by ID.
