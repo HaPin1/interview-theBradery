@@ -13,9 +13,9 @@ export class Cart {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User) // Relation avec l'entité User
+  @ManyToOne(() => User)
   @JoinColumn()
-  user: User; // Utilisation de l'entité User au lieu de userId
+  user: User;
 
   @ManyToOne(() => Products)
   @JoinColumn()
