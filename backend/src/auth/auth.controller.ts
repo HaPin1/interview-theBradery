@@ -17,7 +17,6 @@ export class AuthController {
     if (!result.sub) {
       res.status(result.status).send(result.data);
     }
-
     const token = await this.authService.login(result);
     res.status(token.status).json(token.JSON);
   }
