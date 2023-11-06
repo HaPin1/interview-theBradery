@@ -15,4 +15,14 @@ export class ProductsService {
     const products = await this.productsRepository.find();
     return { data: products, status: HttpStatus.OK, message: 'Success' };
   }
+
+  async findOne(id: number) {
+    const product = await this.productsRepository.findOne({
+      where: { id: id },
+    });
+    if (!product) {
+      return { status: HttpStatus.NOT_FOUND, message: 'Product not found' };
+    }
+    return { data: product, status: HttpStatus.OK, message: 'Success' };
+  }
 }
