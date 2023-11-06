@@ -73,12 +73,7 @@ export const register = (username, password) => {
         password: password,
       };
 
-      const response = await axios.post(
-        "http://localhost:3000/auth/register",
-        userData
-      );
-
-      dispatch(loginSuccess(response.data));
+      await axios.post("http://localhost:3000/auth/register", userData);
     } catch (error) {
       dispatch(registerFailure(error.message));
       throw error;

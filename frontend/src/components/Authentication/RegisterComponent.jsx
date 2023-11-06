@@ -41,7 +41,7 @@ const RegisterComponent = () => {
   const handleRegister = () => {
     dispatch(register(username, password))
       .then(() => {
-        navigate(`/`, { replace: true });
+        navigate(`/login`, { replace: true });
       })
       .catch((err) => {
         handleOpen(error, "error");
