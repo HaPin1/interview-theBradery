@@ -37,7 +37,7 @@ You are now ready to launch the NestJS application using the command below.
 
 ```sh
 # Launch the development server with TSNode
-npm run dev
+yarn start:dev
 ```
 
 ## 2. Project structure
@@ -88,7 +88,7 @@ project/
 
 ## 3. Default Yarn commands
 
-The NPM commands below are already included with this template and can be used to quickly run, build and test your project.
+The Yarn commands below are already included with this template and can be used to quickly run, build and test your project.
 
 ```sh
 # Start the application using the transpiled NodeJS
