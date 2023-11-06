@@ -22,7 +22,7 @@ export class AuthController {
     res.status(token.status).json(token.JSON);
   }
 
-  @Post('create')
+  @Post('register')
   async createUser(
     @Body('username') username: string,
     @Body('password') password: string,
