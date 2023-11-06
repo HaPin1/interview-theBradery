@@ -21,7 +21,7 @@ export class CartService {
     const user = await this.userRepository.findOne({ where: { id: userId } });
 
     if (!user) {
-      return { status: HttpStatus.NOT_FOUND, data: 'User not found' };
+      return { status: HttpStatus.OK, data: 'User not found' };
     }
 
     const product = await this.productsRepository.findOne({
@@ -30,7 +30,7 @@ export class CartService {
 
     if (!product) {
       return {
-        status: HttpStatus.NOT_FOUND,
+        status: HttpStatus.OK,
         data: 'Product not found',
       };
     }
@@ -62,18 +62,43 @@ export class CartService {
     };
   }
 
+  async removeFromCart(userId: number, productId: number) {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+
+    if (!user) {
+      return { status: HttpStatus.OK, data: 'User not found' };
+    }
+
+    const product = await this.productsRepository.findOne({
+      where: { id: productId },
+    });
+
+    if (!product) {
+      return { status: HttpStatus.OK, data: 'Product not found' };
+    }
+
+    const cartItems = await this.cartRepository.find({
+      where: { user: { id: userId }, product: { id: productId } },
+    });
+
+    if (!cartItems || cartItems.length === 0) {
+      return { status: HttpStatus.OK, data: 'No items to remove from cart' };
+    }
+
+    await Promise.all(
+      cartItems.map(async (cartItem) => {
+        await this.cartRepository.remove(cartItem);
+      }),
+    );
+
+    return { status: HttpStatus.OK, data: 'Items removed from cart' };
+  }
+
   async getCartByUserId(userId: number) {
     const userCart = await this.cartRepository.find({
       where: { user: { id: userId } },
       relations: ['product'],
     });
-
-    if (userCart.length === 0) {
-      return {
-        status: HttpStatus.NOT_FOUND,
-        data: 'Cart is empty',
-      };
-    }
 
     return { data: userCart, status: HttpStatus.OK };
   }
@@ -86,7 +111,7 @@ export class CartService {
 
     if (userCart.length === 0) {
       return {
-        status: HttpStatus.NOT_FOUND,
+        status: HttpStatus.OK,
         data: 'Cart is empty',
       };
     }
