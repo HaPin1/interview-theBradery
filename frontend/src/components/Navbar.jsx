@@ -11,6 +11,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate(`/login`, { replace: true });
   };
 
   const handleLogin = () => {
@@ -18,7 +19,7 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static" style={{borderRadius: '10px'}}>
+    <AppBar position="static" style={{ borderRadius: "10px" }}>
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           My Website

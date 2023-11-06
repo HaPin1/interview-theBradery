@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { login } from "../../redux/actions/authActions";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../../redux/actions/authActions";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import ToastNotification from "../ToastNotifiaction";
 
-const LoginComponent = () => {
+const RegisterComponent = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -36,13 +36,15 @@ const LoginComponent = () => {
     setOpenToast(false);
   };
 
-  const handleLogin = () => {
-    dispatch(login(username, password))
+  const error = useSelector((state) => state.error);
+
+  const handleRegister = () => {
+    dispatch(register(username, password))
       .then(() => {
         navigate(`/`, { replace: true });
       })
       .catch((err) => {
-        handleOpen(err.response.data, "error");
+        handleOpen(error, "error");
       });
   };
 
@@ -64,7 +66,7 @@ const LoginComponent = () => {
         }}
       >
         <Typography component="h1" variant="h5">
-          Sign in
+          Register
         </Typography>
         <Box component="form" noValidate sx={{ mt: 1 }}>
           <TextField
@@ -90,13 +92,15 @@ const LoginComponent = () => {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            onClick={handleLogin}
+            onClick={handleRegister}
           >
-            Sign In
+            Register
           </Button>
           <Grid container>
             <Grid item>
-              <a href="/register">{"Don't have an account? Sign Up"}</a>
+              <Link to="/login" variant="body2">
+                {"Already have an account? Sign In"}
+              </Link>
             </Grid>
           </Grid>
         </Box>
@@ -105,4 +109,4 @@ const LoginComponent = () => {
   );
 };
 
-export default LoginComponent;
+export default RegisterComponent;

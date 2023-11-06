@@ -13,7 +13,7 @@ const HomeComponent = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const { isError, data } = await useFetchAll(token);
+      const { isError, data } = await useFetchAll();
 
       if (isError) {
         setError(true);

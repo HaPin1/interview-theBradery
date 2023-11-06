@@ -5,6 +5,7 @@ import HomeComponent from "../components/Product/HomeComponent";
 import CartComponent from "../components/Product/CartComponent";
 import { useSelector } from "react-redux";
 import ProductDetail from "../components/Product/ProductComponent";
+import RegisterComponent from "../components/Authentication/RegisterComponent";
 
 const ProtectedRoute = ({ logged, redirectPath = "/login", children }) => {
   if (!logged) {
@@ -19,6 +20,7 @@ const CustomRoutes = () => {
   return (
     <Routes>
       <Route path="login" element={<LoginComponent />} />
+      <Route path="register" element={<RegisterComponent />} />
       <Route element={<ProtectedRoute logged={isLoggedIn} />}>
         <Route path="" element={<HomeComponent />} />
         <Route path="cart" element={<CartComponent />} />
