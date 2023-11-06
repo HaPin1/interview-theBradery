@@ -1,14 +1,13 @@
 import React from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import AuthComponent from "./components/AuthComponent"; // Votre composant d'authentification
-// Importez vos autres composants ou pages ici
+import { BrowserRouter as Router } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import CustomRoutes from "./routes/CustomRoutes";
 
 const App = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/login" element={<AuthComponent />} />
-      </Routes>
+      <Navbar />
+      <CustomRoutes />
     </Router>
   );
 };

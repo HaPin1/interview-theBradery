@@ -1,29 +1,38 @@
 import axios from "axios";
+import {  } from "react-router-dom";
 
-// Action types
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOGOUT = "LOGOUT";
 
-// Action creators
 export const loginRequest = () => ({
   type: LOGIN_REQUEST,
 });
 
-export const loginSuccess = (userData) => ({
-  type: LOGIN_SUCCESS,
-  payload: userData,
-});
+export const loginSuccess = (userData) => {
+  localStorage.setItem("username", userData.username);
+  localStorage.setItem("jwt", userData.token);
+
+  return {
+    type: LOGIN_SUCCESS,
+    payload: userData,
+  };
+};
 
 export const loginFailure = (error) => ({
   type: LOGIN_FAILURE,
   payload: error,
 });
 
-export const logout = () => ({
-  type: LOGOUT,
-});
+export const logout = () => {
+  localStorage.removeItem("username");
+  localStorage.removeItem("jwt");
+
+  return {
+    type: LOGOUT,
+  };
+};
 
 export const login = (username, password) => {
   return async (dispatch) => {
@@ -37,14 +46,11 @@ export const login = (username, password) => {
 
       const response = await axios.post(
         "http://localhost:3000/auth/login",
-        userData // Utilisez directement l'objet JavaScript userData
+        userData
       );
 
-      console.log(response.data);
-      // Si la connexion réussit, dispatche l'action de succès
       dispatch(loginSuccess(response.data));
     } catch (error) {
-      // Si la connexion échoue, dispatche l'action d'échec
       dispatch(loginFailure(error.message));
     }
   };

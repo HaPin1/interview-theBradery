@@ -5,9 +5,13 @@ import {
   LOGOUT,
 } from "../actions/authActions";
 
+const storedUsername = localStorage.getItem("username");
+const storedJwt = localStorage.getItem("jwt");
+
 const initialState = {
-  isLoggedIn: false,
-  user: null,
+  isLoggedIn: storedUsername && storedJwt,
+  user: storedUsername || null,
+  jwt: storedJwt || null,
   loading: false,
   error: null,
 };
@@ -25,7 +29,8 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoggedIn: true,
-        user: action.payload,
+        user: action.payload.username,
+        jwt: action.payload.token,
         loading: false,
       };
 

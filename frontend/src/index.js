@@ -4,8 +4,8 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./redux/reducers/authReducer";
 import App from "./App";
+import './style.css'
 
-// Création du store Redux avec configureStore de Redux Toolkit et le rootReducer
 const store = configureStore({
   reducer: authReducer,
 });
