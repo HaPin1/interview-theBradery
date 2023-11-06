@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import {
   Button,
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 const ProductDetail = () => {
   const { productId } = useParams();
   const classes = useStyles();
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -41,7 +40,7 @@ const ProductDetail = () => {
     };
 
     fetchProduct();
-  }, []);
+  }, [productId]);
 
   const handleAddToCart = () => {
     console.log(`Ajout de ${quantity} unités de ${product.name} au panier`);
@@ -52,6 +51,12 @@ const ProductDetail = () => {
       {isLoading && (
         <div style={{ textAlign: "center", marginTop: 20 }}>
           <CircularProgress />
+        </div>
+      )}
+      {error && (
+        <div style={{ textAlign: "center", marginTop: 20 }}>
+          <p>An error occured while fetching data ...</p>
+          <p>Refresh page</p>
         </div>
       )}
       {!isLoading && product && (
