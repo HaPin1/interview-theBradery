@@ -1,9 +1,10 @@
 import React from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-import LoginComponent from "../components/LoginComponent";
-import HomeComponent from "../components/HomeComponent";
-import CartComponent from "../components/CartComponent";
+import LoginComponent from "../components/Authentication/LoginComponent";
+import HomeComponent from "../components/Product/HomeComponent";
+import CartComponent from "../components/Product/CartComponent";
 import { useSelector } from "react-redux";
+import ProductDetail from "../components/Product/ProductComponent";
 
 const ProtectedRoute = ({ logged, redirectPath = "/login", children }) => {
   if (!logged) {
@@ -21,6 +22,7 @@ const CustomRoutes = () => {
       <Route element={<ProtectedRoute logged={isLoggedIn} />}>
         <Route path="" element={<HomeComponent />} />
         <Route path="cart" element={<CartComponent />} />
+        <Route path="/product/:productId" element={<ProductDetail />} />
       </Route>
     </Routes>
   );

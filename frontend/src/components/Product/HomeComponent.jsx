@@ -1,27 +1,34 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProductItem from "./ProductItem"; // Assure-toi de créer le composant pour afficher un élément de produit
+import { useFetchAll } from "../../hooks/useApi";
+import { useSelector } from "react-redux";
 
 const HomeComponent = () => {
+  const token = useSelector(state => state.jwt);
   const [products, setProducts] = useState([]);
-  console.log("ouais");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const response = await axios.get("http://localhost:3000/products");
-        setProducts(response.data);
-        console.log(response);
-      } catch (error) {
-        console.error("Error fetching products:", error);
+    const fetchProducts = async () => {
+      const { isError, data } = await useFetchAll(token);
+
+      if (isError) {
+        setError(true);
+        setIsLoading(false);
+        return;
       }
-    }
+      setProducts(data);
+      setIsLoading(false);
+    };
 
     fetchProducts();
   }, []);
 
   return (
-    <div>
+    <div style={{ padding: "1rem" }}>
       <h1>Products</h1>
       <div
         style={{

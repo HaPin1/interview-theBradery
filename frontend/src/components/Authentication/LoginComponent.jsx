@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../redux/actions/authActions";
+import { login } from "../../redux/actions/authActions";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
