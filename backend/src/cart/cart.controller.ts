@@ -31,6 +31,20 @@ export class CartController {
     res.status(result.status).send(result.data);
   }
 
+  @Post('remove-from-cart')
+  @UseGuards(JwtAuthGuard)
+  async removeFromCart(
+    @Req() req,
+    @Body('productId') productId: number,
+    @Res() res: Response,
+  ) {
+    const result = await this.cartService.removeFromCart(
+      req.user.userId,
+      productId,
+    );
+    res.status(result.status).send(result.data);
+  }
+
   @Get()
   @UseGuards(JwtAuthGuard)
   async getUserCart(@Req() req, @Res() res: Response) {
