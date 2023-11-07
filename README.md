@@ -36,12 +36,12 @@ The SQL script provided was used to create the product table required for the pr
 
 - After each order, an entry is created in the database showing the total price and details of the items ordered. Product stock is updated accordingly.
 
-## Fichier README
+## README file
 
-Les fichier README du backend et frontend sont situé dans leurs deossier respectifs et expliquent comment installer et démarrer le projet.
+The backend and frontend README files are located in their respective folders and explain how to install and start the project.
 
-## Fichier MySQL
+## MySQL file
 
-Le script SQL pour configurer la base de données est inclus dans le répertoire backend.
+The SQL script for configuring the database is included in the backend directory.
 
 ---
