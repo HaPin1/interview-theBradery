@@ -16,7 +16,7 @@ export const useAddCart = async (token, productId, quantity) => {
     );
     return { isError: false, data: response.data };
   } catch (error) {
-    return { isError: true, data: null };
+    return { isError: true, data: error };
   }
 };
 
@@ -35,7 +35,7 @@ export const useDeleteFromCart = async (token, productId) => {
     );
     return { isError: false, data: response.data };
   } catch (error) {
-    return { isError: true, data: null };
+    return { isError: true, data: error };
   }
 };
 
@@ -48,7 +48,7 @@ export const useFetchCart = async (token) => {
     });
     return { isError: false, data: response.data };
   } catch (error) {
-    return { isError: true, data: null };
+    return { isError: true, data: error };
   }
 };
 
@@ -61,6 +61,6 @@ export const useBuyCart = async (token) => {
     });
     return { isError: false, data: response.data };
   } catch (error) {
-    return { isError: true, data: null };
+    return { isError: true, data: error };
   }
 };

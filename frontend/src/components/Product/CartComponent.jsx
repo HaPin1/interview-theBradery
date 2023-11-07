@@ -71,7 +71,7 @@ const CartComponent = () => {
       return;
     }
 
-    handleOpen(data, "error");
+    handleOpen(data.response.data, "error");
   };
 
   const handleDeleteFromCart = async (productId) => {
@@ -83,7 +83,7 @@ const CartComponent = () => {
       return;
     }
 
-    handleOpen(data, "error");
+    handleOpen(data.response.data, "error");
   };
 
   return (
