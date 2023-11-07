@@ -151,11 +151,9 @@ export class CartService {
       };
     }
 
-    const products = userCart.map((cartItem) => cartItem.product);
-
     const orderCreationResult = await this.orderService.createOrder(
       user,
-      products,
+      userCart,
     );
 
     if (!orderCreationResult.success) {
