@@ -5,6 +5,7 @@ import { Cart } from './cart.entity';
 import { Products } from 'src/products/products.entity';
 import { HttpStatus } from '@nestjs/common';
 import { User } from 'src/auth/user.entity';
+import { OrderService } from 'src/order/order.service';
 
 @Injectable()
 export class CartService {
@@ -15,6 +16,7 @@ export class CartService {
     private productsRepository: Repository<Products>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private readonly orderService: OrderService,
   ) {}
 
   async addToCart(userId: number, productId: number, quantity: number) {
@@ -116,6 +118,16 @@ export class CartService {
       };
     }
 
+    userCart.forEach((item) => {
+      item.product.price = Number(item.product.price);
+    });
+
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+
+    if (!user) {
+      return { status: HttpStatus.OK, data: 'User not found' };
+    }
+
     const errors = [];
 
     for (const cartItem of userCart) {
@@ -136,6 +148,20 @@ export class CartService {
       return {
         status: HttpStatus.BAD_REQUEST,
         data: errors.join(', '),
+      };
+    }
+
+    const products = userCart.map((cartItem) => cartItem.product);
+
+    const orderCreationResult = await this.orderService.createOrder(
+      user,
+      products,
+    );
+
+    if (!orderCreationResult.success) {
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        data: 'Failed to create the order',
       };
     }
 
