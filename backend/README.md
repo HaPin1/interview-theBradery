@@ -86,7 +86,11 @@ project/
 └── tsconfig.json # TypeScript configuration file
 ```
 
-## 3. Default Yarn commands
+## 3. Setting up the Database
+
+To set up the database, execute the provided SQL file located in the "src" directory.
+
+## 4. Default Yarn commands
 
 The Yarn commands below are already included with this template and can be used to quickly run, build and test your project.
 
@@ -105,7 +109,7 @@ yarn lint
 
 ```
 
-## 4. Endpoints
+## 5. Endpoints
 
 ### Authentication
 
