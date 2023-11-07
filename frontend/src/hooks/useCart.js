@@ -3,7 +3,7 @@ import axios from "axios";
 export const useAddCart = async (token, productId, quantity) => {
   try {
     const response = await axios.post(
-      "http://localhost:3000/cart/add-to-cart",
+      `${process.env.REACT_APP_BASE_URL}/cart/add-to-cart`,
       {
         productId,
         quantity,
@@ -23,7 +23,7 @@ export const useAddCart = async (token, productId, quantity) => {
 export const useDeleteFromCart = async (token, productId) => {
   try {
     const response = await axios.post(
-      "http://localhost:3000/cart/remove-from-cart",
+      `${process.env.REACT_APP_BASE_URL}/cart/remove-from-cart`,
       {
         productId,
       },
@@ -41,7 +41,7 @@ export const useDeleteFromCart = async (token, productId) => {
 
 export const useFetchCart = async (token) => {
   try {
-    const response = await axios.get(`http://localhost:3000/cart`, {
+    const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/cart`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -54,7 +54,7 @@ export const useFetchCart = async (token) => {
 
 export const useBuyCart = async (token) => {
   try {
-    const response = await axios.post("http://localhost:3000/cart/buy", null, {
+    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/cart/buy`, null, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

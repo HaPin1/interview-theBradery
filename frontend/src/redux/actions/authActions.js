@@ -51,7 +51,7 @@ export const login = (username, password) => {
       };
 
       const response = await axios.post(
-        "http://localhost:3000/auth/login",
+        `${process.env.REACT_APP_BASE_URL}/auth/login`,
         userData
       );
 
@@ -73,7 +73,7 @@ export const register = (username, password) => {
         password: password,
       };
 
-      await axios.post("http://localhost:3000/auth/register", userData);
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/register`, userData);
     } catch (error) {
       dispatch(registerFailure(error.message));
       throw error;
