@@ -21,6 +21,7 @@ const CartComponent = () => {
   const [cartItems, setCartItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const [openToast, setOpenToast] = useState(false);
   const [message, setMessage] = useState("");
@@ -48,6 +49,12 @@ const CartComponent = () => {
       return;
     }
     setCartItems(data);
+    setTotalPrice(
+      data.reduce(
+        (total, item) => total + item.product.price * item.quantity,
+        0
+      )
+    );
     setIsLoading(false);
   };
 
@@ -64,7 +71,7 @@ const CartComponent = () => {
       return;
     }
 
-    handleOpen(data, "error");
+    handleOpen(data.response.data, "error");
   };
 
   const handleDeleteFromCart = async (productId) => {
@@ -76,7 +83,7 @@ const CartComponent = () => {
       return;
     }
 
-    handleOpen(data, "error");
+    handleOpen(data.response.data, "error");
   };
 
   return (
@@ -130,7 +137,7 @@ const CartComponent = () => {
 
       {!isLoading && cartItems.length !== 0 && (
         <Button variant="contained" color="primary" onClick={handleBuyCart}>
-          Buy Cart
+          Buy Cart ( {totalPrice.toFixed(2)} $)
         </Button>
       )}
 
