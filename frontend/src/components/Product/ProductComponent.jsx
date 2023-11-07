@@ -71,7 +71,7 @@ const ProductDetail = () => {
       handleOpen(data, "error");
       return;
     }
-    handleOpen(data, "success");
+    handleOpen(data.response.data, "error");
   };
 
   return (
